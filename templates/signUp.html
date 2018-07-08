@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Sign Up
+{% endblock %}
+
+{% block body %}
+
+    <ul>
+        {% for note in notes %}
+            <li>{{ note }}</li>
+        {% endfor %}
+    </ul>
+
+    <form action="{{ url_for('signUp') }}" method="post">
+        <input type="text" name="username" placeholder="ID">
+        <input type="text" name="password" placeholder="Password">
+        <button type="button" class="btn btn-outline-primary">Create Account</button>
+        <a class="btn btn-primary" href="/" role="button">Cancel</a>
+    </form>
+{% endblock %}

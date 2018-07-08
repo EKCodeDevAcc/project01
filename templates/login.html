@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Login
+{% endblock %}
+
+{% block body %}
+
+    <ul>
+        {% for note in notes %}
+            <li>{{ note }}</li>
+        {% endfor %}
+    </ul>
+
+    <form action="{{ url_for('displayLogin') }}" method="post">
+        <input type="text" name="username" placeholder="ID">
+        <input type="text" name="password" placeholder="Password">
+        <button type="button" class="btn btn-primary">Login</button>
+        <a class="btn btn-primary" href="/signUp" role="button">Sign Up</a>
+    </form>
+{% endblock %}
