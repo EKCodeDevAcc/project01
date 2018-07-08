@@ -6,6 +6,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 
 app = Flask(__name__)
+app._static_folder = "static"
 
 # Check for environment variable
 if not os.getenv("DATABASE_URL"):
@@ -27,14 +28,18 @@ def displayLogin():
 
 @app.route("/displaySignUp")
 def displaySignUp():
-    return render_template("signup.html")
+    name_list = db.execute("SELECT * FROM members").fetchall()
+    return render_template("signUp.html", name_list=name_list)
 
-@app.route("/signUp", methods=['POST'])
-def signUp():
-    input_username = request.form['username']
-    input_password = request.form['password']
+@app.route("/sign", methods=['POST'])
+def sign():
+    username = request.form.get("username")
+    password = request.form.get("password")
 
-    if input_username and input_password:
-        return json.dumps({'html': '<span>All Good!</span>'})
-    else:
-        return json.dumps({'html': '<span>Please Enter All Required Fields.</span>'})
+    if db.execute("SELECT * FROM members WHERE username = :username", {"username": username}).rowcount != 0:
+        return render_template("error.html", message="That username already exists. Please try different username")
+
+    db.execute("INSERT INTO members (username, password) VALUES (:username, :password)", {"username": username, "password": password})
+
+    db.commit()
+    return render_template("success.html")

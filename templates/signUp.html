@@ -7,15 +7,20 @@
 {% block body %}
 
     <ul>
-        {% for note in notes %}
-            <li>{{ note }}</li>
+        {% for name in name_list %}
+            <li>{{ name.username }}</li>
+            <li>{{ name.password }}</li>
         {% endfor %}
     </ul>
 
-    <form action="{{ url_for('signUp') }}" method="post">
-        <input type="text" name="username" placeholder="ID">
-        <input type="text" name="password" placeholder="Password">
-        <button type="button" class="btn btn-outline-primary">Create Account</button>
-        <a class="btn btn-primary" href="/" role="button">Cancel</a>
+    <form action="{{ url_for('sign') }}" method="post">
+        <div class="form-group">
+            <input type="text" name="username" placeholder="ID">
+            <input type="text" name="password" placeholder="Password">
+        </div>
+        <div class="form-group">
+            <button class="btn btn-outline-primary">Create Account</button>
+            <a class="btn btn-primary" href="/" role="button">Cancel</a>
+        </div>
     </form>
 {% endblock %}
