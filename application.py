@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask, session, render_template, request, redirect, json
+from flask import Flask, session, render_template, request, redirect, json, url_for
 from flask_session import Session
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
@@ -24,7 +24,11 @@ db = scoped_session(sessionmaker(bind=engine))
 
 @app.route("/")
 def login():
-    return render_template("login.html")
+    username = session.get('user')
+    if session.get('user'):
+        return render_template('index.html', message=username)
+    else:
+        return render_template("login.html")
 
 @app.route("/loginPost", methods=['POST'])
 def loginPost():
@@ -35,7 +39,12 @@ def loginPost():
         return render_template("error.html", message="Wrong username or password. Please try again")
     else:
         session['user'] = username
-        return redirect("index.html", message=username)
+        return redirect(url_for('index', message=username))
+
+@app.route("/logout")
+def logout():
+    session.pop('user', None)
+    return redirect('/')
 
 @app.route("/signUp")
 def signUp():
