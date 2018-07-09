@@ -12,10 +12,14 @@
         {% endfor %}
     </ul>
 
-    <form action="{{ url_for('displayLogin') }}" method="post">
-        <input type="text" name="username" placeholder="ID">
-        <input type="text" name="password" placeholder="Password">
-        <button type="button" class="btn btn-primary">Login</button>
-        <a class="btn btn-primary" href="/displaySignUp" role="button">Sign Up</a>
+    <form action="{{ url_for('loginPost') }}" method="post">
+        <div class="form-group">
+            <input type="text" name="username" placeholder="ID">
+            <input type="text" name="password" placeholder="Password">
+        </div>
+        <div class="form-group">
+            <button class="btn btn-primary">Login</button>
+            <a class="btn btn-primary" href="/signUp" role="button">Sign Up</a>
+        </div>
     </form>
 {% endblock %}

@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 
 {% block title %}
-    Sign Up
+    {{ error_title }}
 {% endblock %}
 
 {% block body %}
@@ -12,7 +12,8 @@
         {% endfor %}
     </ul>
 
-    <div class="alert alert-success" role="alert">
+    <div class="alert alert-danger" role="alert">
         {{ message }}
     </div>
+    <a class="btn btn-primary" href="/signUp" role="button">Go to Sign Up Page.</a>
 {% endblock %}
