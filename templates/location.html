@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 
 {% block title %}
-    Search List
+    Location
 {% endblock %}
 
 {% block body %}
@@ -15,14 +15,14 @@
             <th>Longitude</th>
             <th>Population</th>
         </tr>
-        {% for result in result_list %}
+        {% for location in location_list %}
         <tr>
-            <td><a href="/location/" + {{ result.zipcode }}>{{ result.zipcode }}</a></td>
-            <td>{{ result.city }}</td>
-            <td>{{ result.state }}</td>
-            <td>{{ result.latitude }}</td>
-            <td>{{ result.longitude }}</td>
-            <td>{{ result.population }}</td>
+            <td>{{ location.zipcode }}</td>
+            <td>{{ location.city }}</td>
+            <td>{{ location.state }}</td>
+            <td>{{ location.latitude }}</td>
+            <td>{{ location.longitude }}</td>
+            <td>{{ location.population }}</td>
         </tr>
         {% endfor %}
     </table>

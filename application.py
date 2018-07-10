@@ -30,6 +30,7 @@ def login():
     else:
         return render_template("login.html")
 
+
 @app.route("/loginPost", methods=['POST'])
 def loginPost():
     username = request.form.get("username")
@@ -41,15 +42,18 @@ def loginPost():
         session['user'] = username
         return redirect(url_for('index', message=username))
 
+
 @app.route("/logout")
 def logout():
     session.pop('user', None)
     return redirect('/')
 
+
 @app.route("/signUp")
 def signUp():
     name_list = db.execute("SELECT * FROM members").fetchall()
     return render_template("signUp.html", name_list=name_list)
+
 
 @app.route("/signUpPost", methods=['POST'])
 def signUpPost():
@@ -64,6 +68,7 @@ def signUpPost():
     db.commit()
     return render_template("success.html")
 
+
 @app.route("/index")
 def index():
     username = session.get('user')
@@ -72,6 +77,7 @@ def index():
         return render_template('index.html', message=username)
     else:
         return render_template("error.html", message="Please login to access", error_title="Log In", error_button="/")
+
 
 @app.route("/search", methods=['POST'])
 def search():
@@ -82,3 +88,10 @@ def search():
     else:
         result_list = db.execute("SELECT * FROM zips WHERE (zipcode ~ :keyword) OR (city ~ :keyword)", {"keyword": keyword}).fetchall()
         return render_template("list.html", result_list=result_list)
+
+
+@app.route("/location/<string:select_zip>")
+def location(select_zip):
+    print(select_zip, " this is here")
+    location_list = db.execute("SELECT * FROM zips WHERE zipcode = :zipcode", {"zipcode": select_zip})
+    return render_template("location.html", location_list=location_list)
