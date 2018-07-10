@@ -17,7 +17,7 @@
         </tr>
         {% for result in result_list %}
         <tr>
-            <td><a href="/location/" + {{ result.zipcode }}>{{ result.zipcode }}</a></td>
+            <td><a href="/location/{{ result.zipcode }}">{{ result.zipcode }}</a></td>
             <td>{{ result.city }}</td>
             <td>{{ result.state }}</td>
             <td>{{ result.latitude }}</td>
