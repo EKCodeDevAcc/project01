@@ -51,6 +51,7 @@ def logout():
 
 @app.route("/signUp")
 def signUp():
+    #make sure delete name_list since I don't need this part
     name_list = db.execute("SELECT * FROM members").fetchall()
     return render_template("signUp.html", name_list=name_list)
 
@@ -92,6 +93,23 @@ def search():
 
 @app.route("/location/<string:select_zip>")
 def location(select_zip):
+    username = session.get('user')
     print(select_zip, " this is here")
     location_list = db.execute("SELECT * FROM zips WHERE zipcode = :zipcode", {"zipcode": select_zip})
+    print(location_list, "this is location list")
     return render_template("location.html", location_list=location_list)
+
+
+
+
+@app.route("/commentPost", methods=['POST'])
+def commentPost():
+
+    username = session.get('user')
+    zipcode = request.form.get("zipcode")
+    comment = request.form.get("comment")
+
+    db.execute("INSERT INTO comments (username, zipcode, comment) VALUES (:username, :zipcode, :comment)", {"username": username, "zipcode": zipcode, "comment": comment})
+
+    db.commit()
+    return redirect("/index")
