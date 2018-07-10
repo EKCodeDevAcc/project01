@@ -67,7 +67,18 @@ def signUpPost():
 @app.route("/index")
 def index():
     username = session.get('user')
+
     if session.get('user'):
         return render_template('index.html', message=username)
     else:
         return render_template("error.html", message="Please login to access", error_title="Log In", error_button="/")
+
+@app.route("/search", methods=['POST'])
+def search():
+    keyword = request.form.get("search").upper()
+
+    if db.execute("SELECT * FROM zips WHERE (zipcode ~ :keyword) OR (city ~ :keyword)", {"keyword": keyword}).rowcount == 0:
+        return render_template("error.html", message="No result")
+    else:
+        result_list = db.execute("SELECT * FROM zips WHERE (zipcode ~ :keyword) OR (city ~ :keyword)", {"keyword": keyword}).fetchall()
+        return render_template("list.html", result_list=result_list)
