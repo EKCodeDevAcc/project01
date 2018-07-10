@@ -25,7 +25,7 @@
             <td>{{ location.population }}</td>
         </tr>
     </table>
-    <form action="{{ url_for('commentPost') }}" method="post">
+    <form action="{{ url_for('commentPost') }}" method="post" id="post_form">
         <div class="form-group">
             <input type="text" name="comment" placeholder="Leave your comment">
             <input type="hidden" name="zipcode" value="{{ location.zipcode }}">
@@ -36,8 +36,24 @@
         </div>
     </form>
         {% endfor %}
-    <script>
+    <table id="comment_table">
+        <tr>
+            <th>Comment</th>
+        </tr>
+        {% for comment in comment_list %}
+        <tr>
+            <td style="display: none;">{{ comment.comment }}</td>
+        </tr>
+        {% endfor %}
+    </table>
 
-        document.getElementById("demo").innerHTML = "My First JavaScript";
+    <p id="comment_exist">{{ check_list }}</p>
+    <script>
+        var comment_exist = document.getElementById("comment_exist").innerHTML;
+        if (comment_exist == 'yes') {
+            document.getElementById("post_form").style.visibility = "hidden";
+        } else {
+            document.getElementById("comment_table").style.visibility = "hidden";
+        }
     </script>
 {% endblock %}

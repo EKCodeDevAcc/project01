@@ -94,10 +94,18 @@ def search():
 @app.route("/location/<string:select_zip>")
 def location(select_zip):
     username = session.get('user')
-    print(select_zip, " this is here")
     location_list = db.execute("SELECT * FROM zips WHERE zipcode = :zipcode", {"zipcode": select_zip})
-    print(location_list, "this is location list")
-    return render_template("location.html", location_list=location_list)
+
+    comment_list = db.execute("SELECT * FROM comments WHERE (zipcode = :zipcode) AND (username = :username)", {"zipcode": select_zip, "username": username})
+
+    if db.execute("SELECT * FROM comments WHERE (zipcode = :zipcode) AND (username = :username)", {"zipcode": select_zip, "username": username}).rowcount == 1:
+        check_list = "yes"
+        print(check_list)
+        return render_template("location.html", location_list=location_list, comment_list=comment_list, check_list=check_list)
+    else:
+        check_list = "no"
+        print(check_list)
+        return render_template("location.html", location_list=location_list, check_list=check_list)
 
 
 
