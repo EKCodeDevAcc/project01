@@ -42,14 +42,31 @@
         </tr>
         {% for comment in comment_list %}
         <tr>
-            <td style="display: none;">{{ comment.comment }}</td>
+            <td>{{ comment.comment }}</td>
         </tr>
         {% endfor %}
     </table>
-
-    <p id="comment_exist">{{ check_list }}</p>
+    <p id="summary"></p>
+    <table>
+        <tr>
+            <th>Time</th>
+            <th>Summary</th>
+            <th>Temperature</th>
+            <th>Dew Point</th>
+            <th>Humidity</th>
+        </tr>
+        <tr>
+            <td>{{ weather_time }}</td>
+            <td>{{ weather_summary }}</td>
+            <td>{{ weather_temperature }}</td>
+            <td>{{ weather_dewPoint }}</td>
+            <td>{{ weather_humidity }}</td>
+        </tr>
+    </table>
+    <p id="comment_exist" style="display: none;">{{ check_list }}</p>
     <script>
         var comment_exist = document.getElementById("comment_exist").innerHTML;
+
         if (comment_exist == 'yes') {
             document.getElementById("post_form").style.visibility = "hidden";
         } else {

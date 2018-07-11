@@ -1,4 +1,5 @@
 import os
+import requests
 
 from flask import Flask, session, render_template, request, redirect, json, url_for
 from flask_session import Session
@@ -6,7 +7,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 
 app = Flask(__name__)
-app._static_folder = "static"
+#app._static_folder = "static"
 
 # Check for environment variable
 if not os.getenv("DATABASE_URL"):
@@ -98,14 +99,22 @@ def location(select_zip):
 
     comment_list = db.execute("SELECT * FROM comments WHERE (zipcode = :zipcode) AND (username = :username)", {"zipcode": select_zip, "username": username})
 
+    current_latitude = str(db.execute("SELECT latitude FROM zips WHERE (zipcode = :zipcode)", {"zipcode": select_zip}).fetchone()[0])
+    current_longitude = str(db.execute("SELECT longitude FROM zips WHERE (zipcode = :zipcode)", {"zipcode": select_zip}).fetchone()[0])
+
+    weather = requests.get("https://api.darksky.net/forecast/f9f349f903f5d2f2f93565b27de10eb9/" + current_latitude + "," + current_longitude).json()
+    weather_time = weather["currently"]["time"]
+    weather_summary = weather["currently"]["summary"]
+    weather_temperature = weather["currently"]["temperature"]
+    weather_dewPoint = weather["currently"]["dewPoint"]
+    weather_humidity = weather["currently"]["humidity"]
+
     if db.execute("SELECT * FROM comments WHERE (zipcode = :zipcode) AND (username = :username)", {"zipcode": select_zip, "username": username}).rowcount == 1:
         check_list = "yes"
-        print(check_list)
-        return render_template("location.html", location_list=location_list, comment_list=comment_list, check_list=check_list)
+        return render_template("location.html", location_list=location_list, comment_list=comment_list, check_list=check_list, weather_time=weather_time, weather_summary=weather_summary, weather_temperature=weather_temperature, weather_dewPoint=weather_dewPoint, weather_humidity=weather_humidity)
     else:
         check_list = "no"
-        print(check_list)
-        return render_template("location.html", location_list=location_list, check_list=check_list)
+        return render_template("location.html", location_list=location_list, check_list=check_list, weather_time=weather_time, weather_summary=weather_summary, weather_temperature=weather_temperature, weather_dewPoint=weather_dewPoint, weather_humidity=weather_humidity)
 
 
 
