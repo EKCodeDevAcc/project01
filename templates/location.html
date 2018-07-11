@@ -1,7 +1,21 @@
 {% extends "layout.html" %}
 
 {% block title %}
-    Location
+<div id="parent1">
+    <div id="child1">
+        <h1 id="subtitle_center2">Location Information</h1>
+    </div>
+    <div id="child1">
+        <div id="child2">
+            <form action="{{ url_for('logout') }}">
+                <button id="logout_button" class="btn btn-primary">Logout</button>
+            </form>
+        </div>
+        <div id="child2">
+            <h2 id="logout_block">Welcome, {{ message }}</h2>
+        </div>
+    </div>
+</div>
 {% endblock %}
 
 {% block body %}

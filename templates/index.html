@@ -1,21 +1,29 @@
 {% extends "layout.html" %}
 
 {% block title %}
-    Test 1
+<div id="parent1">
+    <div id="child1">
+        <h1 id="subtitle_center2">Main</h1>
+    </div>
+    <div id="child1">
+        <div id="child2">
+            <form action="{{ url_for('logout') }}">
+                <button id="logout_button" class="btn btn-primary">Logout</button>
+            </form>
+        </div>
+        <div id="child2">
+            <h2 id="logout_block">Welcome, {{ message }}</h2>
+        </div>
+    </div>
+</div>
 {% endblock %}
 
 {% block body %}
-
-    <ul>
-        <li>Welcome, {{ message }}</li>
-    </ul>
-
-    <form action="{{ url_for('logout') }}">
-        <button class="btn btn-primary">Logout</button>
-    </form>
-
-    <form action="{{ url_for('search') }}" method="post">
-        <input type="text" name="search" placeholder="Search">
-        <button class="btn btn-primary">Search</button>
-    </form>
+    <div id="main_body">
+        <h2 id="body_title">Please Enter Zipcode or Name of City</h2>
+        <form action="{{ url_for('search') }}" method="post">
+            <input type="text" name="search" placeholder="Search">
+            <button class="btn btn-primary">Search</button>
+        </form>
+    </div>
 {% endblock %}

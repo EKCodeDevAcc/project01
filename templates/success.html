@@ -1,19 +1,12 @@
 {% extends "layout.html" %}
 
 {% block title %}
-    Sign Up
+    <h1 id="subtitle_center2">Sign Up</h1>
 {% endblock %}
 
 {% block body %}
-
-    <ul>
-        {% for note in notes %}
-            <li>{{ note }}</li>
-        {% endfor %}
-    </ul>
-
     <div class="alert alert-success" role="alert">
-        You created your account. Please go back to login page and sign in.
+        You created your account. Please go back to login page and login.
     </div>
     <a class="btn btn-primary" href="/" role="button">Go to Login Page.</a>
 {% endblock %}

@@ -7,7 +7,6 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 
 app = Flask(__name__)
-#app._static_folder = "static"
 
 # Check for environment variable
 if not os.getenv("DATABASE_URL"):
@@ -38,7 +37,10 @@ def loginPost():
     password = request.form.get("password")
 
     if db.execute("SELECT * FROM members WHERE (username = :username) AND (password = :password)", {"username": username, "password": password}).rowcount != 1:
-        return render_template("error.html", message="Wrong username or password. Please try again")
+        error_title = "Fail to Login"
+        button_link = "/"
+        button_message = "Back to Login Page"
+        return render_template("error.html", message="Wrong username or password. Please try again", error_title=error_title, button_link=button_link, button_message=button_message)
     else:
         session['user'] = username
         return redirect(url_for('index', message=username))
@@ -52,9 +54,7 @@ def logout():
 
 @app.route("/signUp")
 def signUp():
-    #make sure delete name_list since I don't need this part
-    name_list = db.execute("SELECT * FROM members").fetchall()
-    return render_template("signUp.html", name_list=name_list)
+    return render_template("signUp.html")
 
 
 @app.route("/signUpPost", methods=['POST'])
@@ -74,22 +74,20 @@ def signUpPost():
 @app.route("/index")
 def index():
     username = session.get('user')
-
-    if session.get('user'):
-        return render_template('index.html', message=username)
-    else:
-        return render_template("error.html", message="Please login to access", error_title="Log In", error_button="/")
+    return render_template('index.html', message=username)
 
 
 @app.route("/search", methods=['POST'])
 def search():
+
+    username = session.get('user')
     keyword = request.form.get("search").upper()
 
     if db.execute("SELECT * FROM zips WHERE (zipcode ~ :keyword) OR (city ~ :keyword)", {"keyword": keyword}).rowcount == 0:
         return render_template("error.html", message="No result")
     else:
         result_list = db.execute("SELECT * FROM zips WHERE (zipcode ~ :keyword) OR (city ~ :keyword)", {"keyword": keyword}).fetchall()
-        return render_template("list.html", result_list=result_list)
+        return render_template("list.html", result_list=result_list, message=username)
 
 
 @app.route("/location/<string:select_zip>")
