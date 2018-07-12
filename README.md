@@ -67,3 +67,6 @@ application.py
 
 style.css
 - It is css file for basic design of this website.
+
+d50m2e3k3ikg9p.sql
+- Adminer file.
