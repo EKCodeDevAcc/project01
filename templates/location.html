@@ -22,40 +22,48 @@
     <div id="main_body">
         <h2 id="body_title">City Information</h2>
         <table class="table">
-            <tr>
-                <th>Zip</th>
-                <th>City</th>
-                <th>State</th>
-                <th>Latitude</th>
-                <th>Longitude</th>
-                <th>Population</th>
-            </tr>
-            {% for location in location_list %}
-            <tr>
-                <td>{{ location.zipcode }}</td>
-                <td>{{ location.city }}</td>
-                <td>{{ location.state }}</td>
-                <td>{{ location.latitude }}</td>
-                <td>{{ location.longitude }}</td>
-                <td>{{ location.population }}</td>
-            </tr>
-            {% endfor %}
+            <thead class="thead-dark">
+                <tr>
+                    <th>Zip</th>
+                    <th>City</th>
+                    <th>State</th>
+                    <th>Latitude</th>
+                    <th>Longitude</th>
+                    <th>Population</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for location in location_list %}
+                <tr>
+                    <td>{{ location.zipcode }}</td>
+                    <td>{{ location.city }}</td>
+                    <td>{{ location.state }}</td>
+                    <td>{{ location.latitude }}</td>
+                    <td>{{ location.longitude }}</td>
+                    <td>{{ location.population }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
         </table>
         <table class="table">
-            <tr>
-                <th>Time</th>
-                <th>Summary</th>
-                <th>Temperature</th>
-                <th>Dew Point</th>
-                <th>Humidity</th>
-            </tr>
-            <tr>
-                <td>{{ weather_time }}</td>
-                <td>{{ weather_summary }}</td>
-                <td>{{ weather_temperature }}&#8457;</td>
-                <td>{{ weather_dewPoint }}&#8457;</td>
-                <td>{{ weather_humidity }}%</td>
-            </tr>
+            <thead class="thead-dark">
+                <tr>
+                    <th>Time</th>
+                    <th>Summary</th>
+                    <th>Temperature</th>
+                    <th>Dew Point</th>
+                    <th>Humidity</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ weather_time }}</td>
+                    <td>{{ weather_summary }}</td>
+                    <td>{{ weather_temperature }}&#8457;</td>
+                    <td>{{ weather_dewPoint }}&#8457;</td>
+                    <td>{{ weather_humidity }}%</td>
+                </tr>
+            </tbody>
         </table>
         <form action="{{ url_for('commentPost') }}" method="post" id="post_form">
             <div class="form-group">
@@ -68,16 +76,20 @@
             </div>
         </form>
         <table id="comment_table" class="table">
-            <tr>
-                <th>Username</th>
-                <th>Comment</th>
-            </tr>
-            {% for comment in comment_list %}
-            <tr>
-                <td>{{ comment.username }}</td>
-                <td>{{ comment.comment }}</td>
-            </tr>
-            {% endfor %}
+            <thead class="thead-dark">
+                <tr>
+                    <th>Username</th>
+                    <th>Comment</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for comment in comment_list %}
+                <tr>
+                    <td>{{ comment.username }}</td>
+                    <td>{{ comment.comment }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
         </table>
         <p id="comment_exist" style="display: none;">{{ check_list }}</p>
     </div>

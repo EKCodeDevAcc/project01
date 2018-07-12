@@ -149,7 +149,7 @@ def commentPost():
 @app.route("/api/location/<string:select_zip>")
 def location_api(select_zip):
     if db.execute("SELECT * FROM zips WHERE zipcode = :zipcode", {"zipcode": select_zip}).rowcount == 0:
-        return jsonify({"error: zipcode does not exist."}), 442
+        return jsonify({"error": "zipcode does not exist."}), 442
     else:
         result_list = db.execute("SELECT * FROM zips WHERE zipcode = :zipcode", {"zipcode": select_zip}).fetchone()
         comment_number = db.execute("SELECT COUNT(comments.zipcode) FROM comments WHERE zipcode = :zipcode", {"zipcode": select_zip}).fetchone()
