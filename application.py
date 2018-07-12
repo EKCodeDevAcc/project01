@@ -2,7 +2,7 @@ import os
 import requests
 import datetime
 
-from flask import Flask, session, render_template, request, redirect, json, jsonify, url_for
+from flask import Flask, session, render_template, request, redirect, json, jsonify, url_for, abort
 from flask_session import Session
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
@@ -64,7 +64,10 @@ def signUpPost():
     password = request.form.get("password")
 
     if db.execute("SELECT * FROM members WHERE username = :username", {"username": username}).rowcount != 0:
-        return render_template("error.html", message="That username already exists. Please try different username", error_title="Sign Up")
+        error_title = "Username Already Exists"
+        button_link = "/signUp"
+        button_message = "Back to Sign Up Page"
+        return render_template("error.html", message="That username already exists. Please try different username", error_title=error_title, button_link=button_link, button_message=button_message)
 
     db.execute("INSERT INTO members (username, password) VALUES (:username, :password)", {"username": username, "password": password})
 
@@ -85,7 +88,10 @@ def search():
     keyword = request.form.get("search").upper()
 
     if db.execute("SELECT * FROM zips WHERE (zipcode ~ :keyword) OR (city ~ :keyword)", {"keyword": keyword}).rowcount == 0:
-        return render_template("error.html", message="No result")
+        error_title = "No Result"
+        button_link = "/"
+        button_message = "Back to Main Page"
+        return render_template("error.html", message="No result", error_title=error_title, button_link=button_link, button_message=button_message)
     else:
         result_list = db.execute("SELECT * FROM zips WHERE (zipcode ~ :keyword) OR (city ~ :keyword)", {"keyword": keyword}).fetchall()
         return render_template("list.html", result_list=result_list, message=username)
@@ -149,7 +155,7 @@ def commentPost():
 @app.route("/api/location/<string:select_zip>")
 def location_api(select_zip):
     if db.execute("SELECT * FROM zips WHERE zipcode = :zipcode", {"zipcode": select_zip}).rowcount == 0:
-        return jsonify({"error": "zipcode does not exist."}), 442
+        return jsonify({"error": "404 Not Found - zipcode does not exist."}), 404
     else:
         result_list = db.execute("SELECT * FROM zips WHERE zipcode = :zipcode", {"zipcode": select_zip}).fetchone()
         comment_number = db.execute("SELECT COUNT(comments.zipcode) FROM comments WHERE zipcode = :zipcode", {"zipcode": select_zip}).fetchone()
