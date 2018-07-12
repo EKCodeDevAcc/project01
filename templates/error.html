@@ -1,13 +1,18 @@
 {% extends "layout.html" %}
 
 {% block title %}
+
+    <!-- Title of error -->
     <h1 id="subtitle_center2">{{ error_title }}</h1>
 {% endblock %}
 
 {% block body %}
 
+    <!-- Description of error -->
     <div class="alert alert-danger" role="alert">
         {{ message }}
     </div>
+
+    <!-- link, and name of buttons -->
     <a class="btn btn-primary" href="{{ button_link }}" role="button">{{ button_message }}</a>
 {% endblock %}

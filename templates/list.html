@@ -20,6 +20,7 @@
 
 {% block body %}
 
+    <!-- Table of matching cities with their information  -->
     <div id="main_body">
         <h2 id="body_title">List of Cities We Found</h2>
         <table class="table">
@@ -36,6 +37,7 @@
             <tbody>
                 {% for result in result_list %}
                 <tr>
+                    <!-- click this zipcode hyperlink redirects user to location information page -->
                     <td><a href="/location/{{ result.zipcode }}">{{ result.zipcode }}</a></td>
                     <td>{{ result.city }}</td>
                     <td>{{ result.state }}</td>

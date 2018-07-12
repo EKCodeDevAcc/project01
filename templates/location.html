@@ -21,6 +21,8 @@
 {% block body %}
     <div id="main_body">
         <h2 id="body_title">City Information</h2>
+
+        <!-- Information table of the city -->
         <table class="table">
             <thead class="thead-dark">
                 <tr>
@@ -45,6 +47,8 @@
                 {% endfor %}
             </tbody>
         </table>
+
+        <!-- Weather information table of the city -->
         <table class="table">
             <thead class="thead-dark">
                 <tr>
@@ -65,9 +69,13 @@
                 </tr>
             </tbody>
         </table>
+
+        <!-- Comment submit form that only display if user never check-in before -->
         <form action="{{ url_for('commentPost') }}" method="post" id="post_form">
             <div class="form-group">
                 <input type="text" name="comment" placeholder="Leave your comment">
+
+                <!-- store what curreent city's zipcode is  -->
                 <input type="hidden" name="zipcode" value="{{ current_zipcode }}">
             </div>
             <div class="form-group">
@@ -75,6 +83,8 @@
                 <a class="btn btn-primary" href="/search" role="button">Cancel</a>
             </div>
         </form>
+
+        <!-- display a list of check-in comments that belongs to current zipcode -->
         <table id="comment_table" class="table">
             <thead class="thead-dark">
                 <tr>
@@ -91,9 +101,13 @@
                 {% endfor %}
             </tbody>
         </table>
+
+        <!-- the value of comment_exist is either yes or no, use this to figure out current user's check-in status -->
         <p id="comment_exist" style="display: none;">{{ check_list }}</p>
     </div>
     <script>
+
+        //If comment_exit is yes, which means current user already check-in, hide comment post form so current user cannot check-in again
         var comment_exist = document.getElementById("comment_exist").innerHTML;
 
         if (comment_exist == 'yes') {

@@ -1,10 +1,14 @@
 {% extends "layout.html" %}
 
 {% block title %}
+
+    <!-- Subtitle of Sign Up page -->
     <h1 id="subtitle_center">Sign Up</h1>
 {% endblock %}
 
 {% block body %}
+
+    <!-- Sign up form with username and password -->
     <div id="item_center">
         <form action="{{ url_for('signUpPost') }}" method="post">
             <div class="form-group">
@@ -13,6 +17,8 @@
             <div class="form-group">
                 <input type="password" name="password" placeholder="Password">
             </div>
+
+            <!-- Create Account activate signUpPost function, Cancel button redirect user to '/' which is login page -->
             <div class="form-group">
                 <button class="btn btn-outline-primary">Create Account</button>
                 <a class="btn btn-primary" href="/" role="button">Cancel</a>
